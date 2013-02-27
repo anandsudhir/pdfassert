@@ -7,16 +7,28 @@ import com.snowtide.pdf.layout.TextUnitImpl;
 import name.fraser.neil.plaintext.diff_match_patch;
 import name.fraser.neil.plaintext.diff_match_patch.Diff;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TextDiff {
 
     private diff_match_patch dmp = new diff_match_patch();
+    private List<String> ignorePatterns = new ArrayList<String>();
+
+    public void setIgnorePatterns(List<String> ignorePatterns) {
+        this.ignorePatterns = ignorePatterns;
+    }
 
     public Difference getDifferences(Line expected, Line actual) {
         String expectedString = getLineAsString(expected);
         String actualString = getLineAsString(actual);
+
+        for (String ignorePattern : ignorePatterns) {
+            if (expectedString.matches(ignorePattern)) {
+                return null;
+            }
+        }
 
         List<Diff> diffs = getDifferences(expectedString, actualString);
 
@@ -77,10 +89,6 @@ public class TextDiff {
         }
 
         return difference;
-    }
-
-    private void getRegionFromDiff(Diff diff, Line actual) {
-
     }
 
     private String getLineAsString(Line line) {

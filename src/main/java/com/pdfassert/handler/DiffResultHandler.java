@@ -1,7 +1,7 @@
 package com.pdfassert.handler;
 
 import com.pdfassert.PDFAssert;
-import com.pdfassert.domain.PDFDoc;
+import com.pdfassert.domain.PDFDocument;
 import com.snowtide.pdf.layout.Region;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DiffResultHandler {
 
-    public void showDifferences(PDFDoc expectedPdfDoc, PDFDoc actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
+    public void showDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
         if (comparisonResultMode == PDFAssert.ComparisonResultMode.DIFF_UNIFIED) {
             drawDifferences(actualPdfDoc.getPdfFile().getAbsolutePath(), actualPdfDoc.getDiffPdfFile().getAbsolutePath(), actualPdfDoc.getDifference().getDiffsInActual());
             drawDifferences(actualPdfDoc.getPdfFile().getAbsolutePath(), actualPdfDoc.getDiffPdfFile().getAbsolutePath(), actualPdfDoc.getDifference().getDiffsInExpected());

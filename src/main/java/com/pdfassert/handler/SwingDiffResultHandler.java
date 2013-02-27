@@ -1,7 +1,7 @@
 package com.pdfassert.handler;
 
 import com.pdfassert.PDFAssert;
-import com.pdfassert.domain.PDFDoc;
+import com.pdfassert.domain.PDFDocument;
 import org.icepdf.ri.common.ComponentKeyBinding;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
@@ -15,7 +15,7 @@ import java.io.File;
 public class SwingDiffResultHandler extends DiffResultHandler {
 
     @Override
-    public void showDifferences(PDFDoc expectedPdfDoc, PDFDoc actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
+    public void showDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
         super.showDifferences(expectedPdfDoc, actualPdfDoc, comparisonResultMode);
 
         if (comparisonResultMode == PDFAssert.ComparisonResultMode.DIFF_SIDE_BY_SIDE) {

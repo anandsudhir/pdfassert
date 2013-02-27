@@ -6,18 +6,14 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-public class PDFDoc {
+public class PDFDocument {
 
     private final File pdfFile;
     private File diffPdfFile;
     private Map<Integer, List<Block>> pages;
     private Difference difference;
 
-    public PDFDoc(String path) {
-        this(new File(path));
-    }
-
-    public PDFDoc(File pdfFile) {
+    public PDFDocument(File pdfFile) {
         this.pdfFile = pdfFile;
         difference = new Difference();
     }
