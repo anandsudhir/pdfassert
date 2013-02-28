@@ -101,9 +101,9 @@ public class TextDiff {
         for (int j = line.getTextUnitCnt(); i < j; i++) {
             char[] arrayOfChar = line.getTextUnit(i).getCharacterSequence();
 
-            if (arrayOfChar == null)
+            if (arrayOfChar == null) {
                 sb.append((char) ((TextUnitImpl) line.getTextUnit(i)).charCode);
-            else {
+            } else {
                 sb.append(arrayOfChar);
             }
         }

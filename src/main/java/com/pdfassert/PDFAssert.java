@@ -19,7 +19,7 @@ public class PDFAssert {
     private List<String> ignorePatterns = new ArrayList<String>();
 
 
-    public PDFAssert() throws Exception {
+    public PDFAssert() {
         if (GraphicsEnvironment.isHeadless()) {
             diffResultHandler = new DiffResultHandler();
         } else {

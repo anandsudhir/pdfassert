@@ -64,8 +64,8 @@ public class PDFComparator {
             System.exit(0);
         }
 
-        for (Integer i : actualPages.keySet()) {
-            Difference diff = compareBlocks(expectedPages.get(i), actualPages.get(i));
+        for (Map.Entry<Integer, List<Block>> entry : actualPages.entrySet()) {
+            Difference diff = compareBlocks(entry.getValue(), actualPages.get(entry.getKey()));
             if (diff != null && !diff.isEmpty()) {
                 expectedPdfDoc.getDifference().merge(diff);
                 actualPdfDoc.getDifference().merge(diff);
