@@ -67,6 +67,7 @@ public class SwingDiffResultHandler extends DiffResultHandler {
         return viewerComponentPanel;
     }
 
+    @SuppressWarnings("unused")
     private void createSynchronizedScrollingPanels(JPanel expectedPdfPanel, JPanel actualPdfPanel) {
         JFrame applicationFrame = new JFrame();
         applicationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

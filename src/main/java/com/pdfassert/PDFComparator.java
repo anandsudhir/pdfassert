@@ -64,11 +64,11 @@ public class PDFComparator {
             System.exit(0);
         }
 
-        for (Map.Entry<Integer, List<Block>> entry : actualPages.entrySet()) {
+        for (Map.Entry<Integer, List<Block>> entry : expectedPages.entrySet()) {
             Difference diff = compareBlocks(entry.getValue(), actualPages.get(entry.getKey()));
             if (diff != null && !diff.isEmpty()) {
-                expectedPdfDoc.getDifference().merge(diff);
-                actualPdfDoc.getDifference().merge(diff);
+                expectedPdfDoc.getDifferences().put(entry.getKey(), diff);
+                actualPdfDoc.getDifferences().put(entry.getKey(), diff);
             }
         }
     }

@@ -4,7 +4,7 @@ import com.pdfassert.domain.PDFDocument;
 import com.pdfassert.handler.DiffResultHandler;
 import com.pdfassert.handler.SwingDiffResultHandler;
 
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
