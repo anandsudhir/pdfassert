@@ -1,23 +1,24 @@
 package com.pdfassert;
 
-import com.pdfassert.domain.PDFDocument;
-import com.pdfassert.handler.DiffResultHandler;
-import com.pdfassert.handler.SwingDiffResultHandler;
-
-import java.awt.*;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.pdfassert.domain.PDFDocument;
+import com.pdfassert.handler.DiffResultHandler;
+import com.pdfassert.handler.SwingDiffResultHandler;
+
 public class PDFAssert {
 
     private DiffResultHandler diffResultHandler;
+    @SuppressWarnings("unused")
     private String diffDirectory;
+    @SuppressWarnings("unused")
     private ComparisonMode comparisonMode;
     private ComparisonResultMode comparisonResultMode;
     private List<String> ignorePatterns = new ArrayList<String>();
-
 
     public PDFAssert() {
         if (GraphicsEnvironment.isHeadless()) {
@@ -32,8 +33,10 @@ public class PDFAssert {
 
     public static void main(String[] args) throws Exception {
         PDFAssert test = new PDFAssert();
-        test.setIgnorePatterns(Arrays.asList(".*blah.*"));
-        test.comparePDFs("11.pdf", "22.pdf");
+        test.setIgnorePatterns(Arrays.asList(".*Demo.*"));
+        test.comparePDFs(args[0], args[1]);
+        // test.comparePDFs("204_1.pdf", "204_2.pdf");
+
     }
 
     public void setDiffResultHandler(DiffResultHandler diffResultHandler) {
@@ -61,7 +64,8 @@ public class PDFAssert {
 
         pdfComparator.compare();
 
-        diffResultHandler.showDifferences(pdfComparator.getExpectedPdfDoc(), pdfComparator.getActualPdfDoc(), comparisonResultMode);
+        diffResultHandler.showDifferences(pdfComparator.getExpectedPdfDoc(), pdfComparator.getActualPdfDoc(),
+                comparisonResultMode);
     }
 
     private PDFDocument createPdfDocument(String filePath) {
