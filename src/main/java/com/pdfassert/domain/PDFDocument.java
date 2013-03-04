@@ -1,11 +1,14 @@
 package com.pdfassert.domain;
 
-import com.snowtide.pdf.layout.Block;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.snowtide.pdf.layout.Block;
+
+import org.apache.commons.io.FileUtils;
 
 public class PDFDocument {
 
@@ -45,5 +48,10 @@ public class PDFDocument {
 
     private void generateDiffPdfFile() {
         diffPdfFile = new File(pdfFile + "_diff.pdf");
+        try {
+            FileUtils.copyFile(pdfFile, diffPdfFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
