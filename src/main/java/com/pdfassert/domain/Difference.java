@@ -35,4 +35,12 @@ public class Difference {
     public boolean isEmpty() {
         return diffsInExpected.isEmpty() && diffsInActual.isEmpty();
     }
+
+    @Override
+    public String toString() {
+        return "Difference{" +
+                "diffsInExpected=" + diffsInExpected +
+                ", diffsInActual=" + diffsInActual +
+                '}';
+    }
 }

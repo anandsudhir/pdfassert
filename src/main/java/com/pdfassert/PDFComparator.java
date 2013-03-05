@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PDFComparator {
-
     private TextDiff textDiff = new TextDiff();
     private PDFDocument expectedPdfDoc;
     private PDFDocument actualPdfDoc;
@@ -48,6 +47,7 @@ public class PDFComparator {
     }
 
     private void extractPageTextFromPDF(PDFDocument pdf) throws Exception {
+        System.setProperty("pdfts.loggingtype", "log4j");
         PDFTextStream stream = new PDFTextStream(pdf.getPdfFile());
         LocalOutputHandler outputHandler = new LocalOutputHandler();
         stream.pipe(outputHandler);

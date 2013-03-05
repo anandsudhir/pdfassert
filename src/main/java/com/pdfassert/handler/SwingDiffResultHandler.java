@@ -16,12 +16,17 @@ public class SwingDiffResultHandler extends DiffResultHandler {
 
     @Override
     public void showDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
+        if(!actualPdfDoc.isDifferent()) {
+            System.out.println("No differences found between pdfs");
+            return;
+        }
+
         super.showDifferences(expectedPdfDoc, actualPdfDoc, comparisonResultMode);
 
         if (comparisonResultMode == PDFAssert.ComparisonResultMode.DIFF_SIDE_BY_SIDE) {
-            showDifferences(expectedPdfDoc.getDiffPdfFile(), actualPdfDoc.getDiffPdfFile());
+                showDifferences(expectedPdfDoc.getDiffPdfFile(), actualPdfDoc.getDiffPdfFile());
         } else {
-            showDifferences(actualPdfDoc.getDiffPdfFile());
+                showDifferences(actualPdfDoc.getDiffPdfFile());
         }
     }
 
