@@ -2,7 +2,6 @@ package com.pdfassert;
 
 import com.pdfassert.domain.PDFDocument;
 import com.pdfassert.handler.DiffResultHandler;
-import com.pdfassert.handler.HighlightingDiffResultHandler;
 import com.pdfassert.handler.JUnitDiffResultHandler;
 import com.pdfassert.handler.SwingHighlightingDiffResultHandler;
 import org.apache.log4j.Logger;
@@ -16,7 +15,6 @@ import java.util.List;
 public class PDFAssert {
 
     static Logger logger = Logger.getLogger(PDFAssert.class.getName());
-
     private DiffResultHandler diffResultHandler;
     @SuppressWarnings("unused")
     private String diffDirectory;
@@ -41,7 +39,7 @@ public class PDFAssert {
         PDFAssert test = new PDFAssert();
         test.setIgnorePatterns(Arrays.asList(".*Demo.*"));
         //test.comparePDFs(args[0], args[1]);
-        test.assertSimilarPDFs("src/test/resources/pdfs/" + "204_1.pdf", "src/test/resources/pdfs/" + "204_2.pdf");
+        test.assertSimilarPDFs("pdfs/" + "204_1.pdf", "pdfs/" + "204_2.pdf");
 
     }
 
@@ -60,7 +58,7 @@ public class PDFAssert {
         }
     }
 
-    public void setDiffResultHandler(HighlightingDiffResultHandler diffResultHandler) {
+    public void setDiffResultHandler(DiffResultHandler diffResultHandler) {
         this.diffResultHandler = diffResultHandler;
     }
 

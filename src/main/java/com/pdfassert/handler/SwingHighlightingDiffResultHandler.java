@@ -13,15 +13,13 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.io.File;
 
-import static org.junit.Assert.fail;
-
 public class SwingHighlightingDiffResultHandler extends HighlightingDiffResultHandler {
 
     static Logger logger = Logger.getLogger(PDFAssert.class.getName());
 
     @Override
     public void handleDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
-        if(!actualPdfDoc.isDifferent()) {
+        if (!actualPdfDoc.isDifferent()) {
             logger.info("No differences found between pdfs");
             return;
         }
@@ -29,12 +27,10 @@ public class SwingHighlightingDiffResultHandler extends HighlightingDiffResultHa
         super.handleDifferences(expectedPdfDoc, actualPdfDoc, comparisonResultMode);
 
         if (comparisonResultMode == PDFAssert.ComparisonResultMode.DIFF_SIDE_BY_SIDE) {
-                showDifferences(expectedPdfDoc.getDiffPdfFile(), actualPdfDoc.getDiffPdfFile());
+            showDifferences(expectedPdfDoc.getDiffPdfFile(), actualPdfDoc.getDiffPdfFile());
         } else {
-                showDifferences(actualPdfDoc.getDiffPdfFile());
+            showDifferences(actualPdfDoc.getDiffPdfFile());
         }
-
-        fail(expectedPdfDoc.getPdfFile() + " and " + actualPdfDoc.getPdfFile() + " are different");
     }
 
     private void showDifferences(File expectedPdfFile, File actualPdfFile) {
