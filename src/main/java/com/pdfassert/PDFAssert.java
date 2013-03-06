@@ -2,7 +2,9 @@ package com.pdfassert;
 
 import com.pdfassert.domain.PDFDocument;
 import com.pdfassert.handler.DiffResultHandler;
-import com.pdfassert.handler.SwingDiffResultHandler;
+import com.pdfassert.handler.HighlightingDiffResultHandler;
+import com.pdfassert.handler.JUnitDiffResultHandler;
+import com.pdfassert.handler.SwingHighlightingDiffResultHandler;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
@@ -25,9 +27,9 @@ public class PDFAssert {
 
     public PDFAssert() {
         if (GraphicsEnvironment.isHeadless()) {
-            diffResultHandler = new DiffResultHandler();
+            diffResultHandler = new JUnitDiffResultHandler();
         } else {
-            diffResultHandler = new SwingDiffResultHandler();
+            diffResultHandler = new SwingHighlightingDiffResultHandler();
         }
 
         comparisonMode = ComparisonMode.TEXTUAL;
@@ -39,26 +41,26 @@ public class PDFAssert {
         PDFAssert test = new PDFAssert();
         test.setIgnorePatterns(Arrays.asList(".*Demo.*"));
         //test.comparePDFs(args[0], args[1]);
-         test.comparePDFs("src/test/resources/pdfs/" + "204_1.pdf", "src/test/resources/pdfs/" + "204_2.pdf");
+        test.assertSimilarPDFs("src/test/resources/pdfs/" + "204_1.pdf", "src/test/resources/pdfs/" + "204_2.pdf");
 
     }
 
     private static void checkUsage(String[] args) {
-        if(args.length < 1) {
+        if (args.length < 1) {
             System.out.println("Usage: java -jar pdfassert.jar <expected pdf> <actual pdf>");
             return;
         }
 
-        if (!new File(args[0]).exists()){
-            logger.fatal("Expected file does not exist");
+        if (!new File(args[0]).exists()) {
+            logger.error("Expected file does not exist");
         }
 
-        if(!new File(args[1]).exists()) {
-            logger.fatal("Actual file does not exist");
+        if (!new File(args[1]).exists()) {
+            logger.error("Actual file does not exist");
         }
     }
 
-    public void setDiffResultHandler(DiffResultHandler diffResultHandler) {
+    public void setDiffResultHandler(HighlightingDiffResultHandler diffResultHandler) {
         this.diffResultHandler = diffResultHandler;
     }
 
@@ -74,7 +76,7 @@ public class PDFAssert {
         this.ignorePatterns = ignorePatterns;
     }
 
-    public void comparePDFs(String expectedFilename, String actualFilename) throws Exception {
+    public void assertSimilarPDFs(String expectedFilename, String actualFilename) throws Exception {
         PDFDocument expectedPdfDoc = createPdfDocument(expectedFilename);
         PDFDocument actualPdfDoc = createPdfDocument(actualFilename);
 
@@ -83,7 +85,7 @@ public class PDFAssert {
 
         pdfComparator.compare();
 
-        diffResultHandler.showDifferences(pdfComparator.getExpectedPdfDoc(), pdfComparator.getActualPdfDoc(),
+        diffResultHandler.handleDifferences(pdfComparator.getExpectedPdfDoc(), pdfComparator.getActualPdfDoc(),
                 comparisonResultMode);
     }
 

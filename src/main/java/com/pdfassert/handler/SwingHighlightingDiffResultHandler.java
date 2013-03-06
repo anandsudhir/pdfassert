@@ -2,6 +2,7 @@ package com.pdfassert.handler;
 
 import com.pdfassert.PDFAssert;
 import com.pdfassert.domain.PDFDocument;
+import org.apache.log4j.Logger;
 import org.icepdf.ri.common.ComponentKeyBinding;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
@@ -12,22 +13,28 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.io.File;
 
-public class SwingDiffResultHandler extends DiffResultHandler {
+import static org.junit.Assert.fail;
+
+public class SwingHighlightingDiffResultHandler extends HighlightingDiffResultHandler {
+
+    static Logger logger = Logger.getLogger(PDFAssert.class.getName());
 
     @Override
-    public void showDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
+    public void handleDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
         if(!actualPdfDoc.isDifferent()) {
-            System.out.println("No differences found between pdfs");
+            logger.info("No differences found between pdfs");
             return;
         }
 
-        super.showDifferences(expectedPdfDoc, actualPdfDoc, comparisonResultMode);
+        super.handleDifferences(expectedPdfDoc, actualPdfDoc, comparisonResultMode);
 
         if (comparisonResultMode == PDFAssert.ComparisonResultMode.DIFF_SIDE_BY_SIDE) {
                 showDifferences(expectedPdfDoc.getDiffPdfFile(), actualPdfDoc.getDiffPdfFile());
         } else {
                 showDifferences(actualPdfDoc.getDiffPdfFile());
         }
+
+        fail(expectedPdfDoc.getPdfFile() + " and " + actualPdfDoc.getPdfFile() + " are different");
     }
 
     private void showDifferences(File expectedPdfFile, File actualPdfFile) {
