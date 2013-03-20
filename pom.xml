@@ -10,6 +10,17 @@
     <name>PDFAssert</name>
     <description>PDFAssert is a Java utility for comparing PDF documents</description>
 
+    <scm>
+        <connection>scm:git:git@github.com:anandsudhir/pdfassert.git</connection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>anandsudhir</id>
+            <name>Anand Sudhir</name>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <slf4j.version>1.6.6</slf4j.version>

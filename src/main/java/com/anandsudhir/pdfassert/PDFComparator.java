@@ -1,15 +1,17 @@
-package com.pdfassert;
+package com.anandsudhir.pdfassert;
 
-import com.pdfassert.diff.TextDiff;
-import com.pdfassert.domain.Difference;
-import com.pdfassert.domain.PDFDocument;
+import com.anandsudhir.pdfassert.diff.TextDiff;
+import com.anandsudhir.pdfassert.domain.Difference;
+import com.anandsudhir.pdfassert.domain.PDFDocument;
+import com.anandsudhir.pdfassert.report.ConsoleReportGenerator;
+import com.anandsudhir.pdfassert.report.ReportGenerator;
 import com.snowtide.pdf.OutputHandler;
 import com.snowtide.pdf.PDFTextStream;
 import com.snowtide.pdf.Page;
 import com.snowtide.pdf.layout.Block;
 import com.snowtide.pdf.layout.Line;
 import com.snowtide.pdf.layout.Region;
-import com.snowtide.pdf.layout.TextUnit;
+import org.apache.log4j.Logger;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -18,13 +20,21 @@ import java.util.List;
 import java.util.Map;
 
 public class PDFComparator {
+
+    private static Logger logger = Logger.getLogger(PDFComparator.class.getName());
     private TextDiff textDiff = new TextDiff();
     private PDFDocument expectedPdfDoc;
     private PDFDocument actualPdfDoc;
+    private ReportGenerator reportGenerator;
 
     public PDFComparator(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc) {
         this.expectedPdfDoc = expectedPdfDoc;
         this.actualPdfDoc = actualPdfDoc;
+        this.reportGenerator = new ConsoleReportGenerator();
+        reportGenerator.setQuietMode(ReportGenerator.QuietMode.OFF);
+
+        // Use log4j instead of the defalut/custom implementation from pdfts
+        System.setProperty("pdfts.loggingtype", "log4j");
     }
 
     public PDFDocument getExpectedPdfDoc() {
@@ -33,6 +43,10 @@ public class PDFComparator {
 
     public PDFDocument getActualPdfDoc() {
         return actualPdfDoc;
+    }
+
+    public void setReportGenerator(ReportGenerator reportGenerator) {
+        this.reportGenerator = reportGenerator;
     }
 
     public void setIgnorePatterns(List<String> ignorePatterns) {
@@ -47,7 +61,6 @@ public class PDFComparator {
     }
 
     private void extractPageTextFromPDF(PDFDocument pdf) throws Exception {
-        System.setProperty("pdfts.loggingtype", "log4j");
         PDFTextStream stream = new PDFTextStream(pdf.getPdfFile());
         LocalOutputHandler outputHandler = new LocalOutputHandler();
         stream.pipe(outputHandler);
@@ -60,8 +73,8 @@ public class PDFComparator {
         Map<Integer, List<Block>> actualPages = actualPdfDoc.getPages();
 
         if (expectedPages.size() != actualPages.size()) {
-            System.err.println("PDFs have different page count");
-            System.exit(0);
+            logger.info("PDFs have different page count");
+            return;
         }
 
         for (Map.Entry<Integer, List<Block>> entry : expectedPages.entrySet()) {
@@ -103,17 +116,7 @@ public class PDFComparator {
     private Difference compareLines(Line expected, Line actual) {
         Difference diff = textDiff.getDifferences(expected, actual);
         if (diff != null && !diff.isEmpty()) {
-            System.out.println("expected: " + expected);
-            System.out.println("actual: " + actual);
-            for (Region r : diff.getDiffsInExpected()) {
-                System.out.print(((TextUnit) r).getCharacterSequence());
-            }
-            System.out.println("\n");
-
-            for (Region r : diff.getDiffsInActual()) {
-                System.out.print(((TextUnit) r).getCharacterSequence());
-            }
-            System.out.println("\n");
+            reportGenerator.reportDifference(expected, actual, diff);
         }
 
         return diff;

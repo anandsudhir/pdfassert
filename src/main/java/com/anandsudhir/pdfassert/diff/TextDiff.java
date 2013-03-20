@@ -1,6 +1,6 @@
-package com.pdfassert.diff;
+package com.anandsudhir.pdfassert.diff;
 
-import com.pdfassert.domain.Difference;
+import com.anandsudhir.pdfassert.domain.Difference;
 import com.snowtide.pdf.layout.Line;
 import com.snowtide.pdf.layout.Region;
 import com.snowtide.pdf.layout.TextUnitImpl;

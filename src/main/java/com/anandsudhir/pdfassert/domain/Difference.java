@@ -1,4 +1,4 @@
-package com.pdfassert.domain;
+package com.anandsudhir.pdfassert.domain;
 
 import com.snowtide.pdf.layout.Region;
 

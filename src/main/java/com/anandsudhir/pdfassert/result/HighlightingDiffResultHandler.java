@@ -1,19 +1,24 @@
-package com.pdfassert.handler;
+package com.anandsudhir.pdfassert.result;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.Map;
-
-import com.pdfassert.PDFAssert;
-import com.pdfassert.domain.Difference;
-import com.pdfassert.domain.PDFDocument;
+import com.anandsudhir.pdfassert.PDFAssert;
+import com.anandsudhir.pdfassert.domain.Difference;
+import com.anandsudhir.pdfassert.domain.PDFDocument;
 import com.snowtide.pdf.layout.Region;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 
-public class HighlightingDiffResultHandler implements DiffResultHandler{
+import java.awt.*;
+import java.util.List;
+import java.util.Map;
+
+public class HighlightingDiffResultHandler implements DiffResultHandler {
+
+    @Override
+    // TODO Implement this
+    public int getDifferenceCount() {
+        return 0;
+    }
 
     @Override
     public void handleDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc,
@@ -46,7 +51,7 @@ public class HighlightingDiffResultHandler implements DiffResultHandler{
             @SuppressWarnings("unchecked")
             List<PDPage> pages = doc.getDocumentCatalog().getAllPages();
 
-            PDPage page = pages.get(pageNumber-1);
+            PDPage page = pages.get(pageNumber - 1);
 
             PDPageContentStream contentStream = new PDPageContentStream(doc, page, true, true, true);
 
@@ -69,7 +74,7 @@ public class HighlightingDiffResultHandler implements DiffResultHandler{
                         region.ypos(),
                         region.endxpos(),
                         region.ypos()
-                        );
+                );
 
                 // Vertical End -- > End ( B--> D)
                 contentStream.drawLine(
@@ -77,7 +82,7 @@ public class HighlightingDiffResultHandler implements DiffResultHandler{
                         region.ypos(),
                         region.endxpos(),
                         region.endypos()
-                        );
+                );
 
                 // Horizontal End -- > Start ( D --> C)
                 contentStream.drawLine(
@@ -85,7 +90,7 @@ public class HighlightingDiffResultHandler implements DiffResultHandler{
                         region.endypos(),
                         region.xpos(),
                         region.endypos()
-                        );
+                );
 
                 // Vertical Start -- > Start
                 contentStream.drawLine(
@@ -93,7 +98,7 @@ public class HighlightingDiffResultHandler implements DiffResultHandler{
                         region.endypos(),
                         region.xpos(),
                         region.ypos()
-                        );
+                );
 
                 contentStream.close();
             }

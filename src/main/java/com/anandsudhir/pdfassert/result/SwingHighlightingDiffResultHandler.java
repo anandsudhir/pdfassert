@@ -1,7 +1,7 @@
-package com.pdfassert.handler;
+package com.anandsudhir.pdfassert.result;
 
-import com.pdfassert.PDFAssert;
-import com.pdfassert.domain.PDFDocument;
+import com.anandsudhir.pdfassert.domain.PDFDocument;
+import com.anandsudhir.pdfassert.PDFAssert;
 import org.apache.log4j.Logger;
 import org.icepdf.ri.common.ComponentKeyBinding;
 import org.icepdf.ri.common.SwingController;

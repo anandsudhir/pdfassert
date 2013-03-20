@@ -1,11 +1,17 @@
-package com.pdfassert.handler;
+package com.anandsudhir.pdfassert.result;
 
-import com.pdfassert.PDFAssert;
-import com.pdfassert.domain.PDFDocument;
+import com.anandsudhir.pdfassert.PDFAssert;
+import com.anandsudhir.pdfassert.domain.PDFDocument;
 
 import static org.junit.Assert.fail;
 
 public class JUnitDiffResultHandler implements DiffResultHandler {
+
+    @Override
+    // TODO Implement this
+    public int getDifferenceCount() {
+        return 0;
+    }
 
     @Override
     public void handleDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {

@@ -1,13 +1,19 @@
-package com.pdfassert;
+package com.anandsudhir.pdfassert;
 
-import com.pdfassert.domain.PDFDocument;
-import com.pdfassert.handler.DiffResultHandler;
-import com.pdfassert.handler.JUnitDiffResultHandler;
-import com.pdfassert.handler.SwingHighlightingDiffResultHandler;
+import com.anandsudhir.pdfassert.domain.PDFDocument;
+import com.anandsudhir.pdfassert.report.HTMLReportGenerator;
+import com.anandsudhir.pdfassert.result.DiffResultHandler;
+import com.anandsudhir.pdfassert.result.JUnitDiffResultHandler;
+import com.anandsudhir.pdfassert.result.SwingHighlightingDiffResultHandler;
 import org.apache.log4j.Logger;
+import pdfts.examples.XMLFormExport;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,10 +87,20 @@ public class PDFAssert {
         PDFComparator pdfComparator = new PDFComparator(expectedPdfDoc, actualPdfDoc);
         pdfComparator.setIgnorePatterns(ignorePatterns);
 
+        HTMLReportGenerator reportGenerator = new HTMLReportGenerator();
+        pdfComparator.setReportGenerator(reportGenerator);
+
         pdfComparator.compare();
 
         diffResultHandler.handleDifferences(pdfComparator.getExpectedPdfDoc(), pdfComparator.getActualPdfDoc(),
                 comparisonResultMode);
+
+        Writer out = new FileWriter(new File("report.html"));
+        out.write(reportGenerator.getReport());
+        out.flush();
+        out.close();
+
+        logger.info("Done");
     }
 
     private PDFDocument createPdfDocument(String filePath) {
