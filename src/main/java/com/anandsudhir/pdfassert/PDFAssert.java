@@ -30,7 +30,7 @@ public class PDFAssert {
     private List<String> ignorePatterns = new ArrayList<String>();
 
     public PDFAssert() {
-        if (GraphicsEnvironment.isHeadless()) {
+        if (!GraphicsEnvironment.isHeadless()) {
             diffResultHandler = new JUnitDiffResultHandler();
         } else {
             diffResultHandler = new SwingHighlightingDiffResultHandler();

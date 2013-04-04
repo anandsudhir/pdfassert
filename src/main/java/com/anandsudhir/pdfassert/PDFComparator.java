@@ -54,6 +54,8 @@ public class PDFComparator {
     }
 
     public void compare() throws Exception {
+        reportGenerator.createNewReport(expectedPdfDoc.getPdfFile().getName(), actualPdfDoc.getPdfFile().getName());
+
         extractPageTextFromPDF(expectedPdfDoc);
         extractPageTextFromPDF(actualPdfDoc);
 
