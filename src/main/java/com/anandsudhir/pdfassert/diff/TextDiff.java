@@ -1,15 +1,15 @@
 package com.anandsudhir.pdfassert.diff;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.anandsudhir.pdfassert.domain.Difference;
 import com.snowtide.pdf.layout.Line;
 import com.snowtide.pdf.layout.Region;
 import com.snowtide.pdf.layout.TextUnitImpl;
 import name.fraser.neil.plaintext.diff_match_patch;
 import name.fraser.neil.plaintext.diff_match_patch.Diff;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class TextDiff {
 
@@ -20,6 +20,10 @@ public class TextDiff {
         this.ignorePatterns = ignorePatterns;
     }
 
+    /**
+     * Gets the {@code Region}s where differences were found in the text
+     * in expected {@code Line} and actual {@code Line}
+     */
     public Difference getDifferences(Line expected, Line actual) {
         String expectedString = getLineAsString(expected);
         String actualString = getLineAsString(actual);
@@ -31,7 +35,6 @@ public class TextDiff {
         }
 
         List<Diff> diffs = getDifferences(expectedString, actualString);
-
         if (diffs.size() > 1) {
             return getRegionsFromDiffs(diffs, expected, actual);
         }
@@ -39,35 +42,52 @@ public class TextDiff {
         return null;
     }
 
+    /**
+     * Gets the Levenshtein distance between text in expected {@code Line} and actual {@code Line}
+     */
     public int getLevenshteinDistance(Line expected, Line actual) {
         String expectedString = getLineAsString(expected);
         String actualString = getLineAsString(actual);
 
+        //CHECKSTYLE:OFF
         LinkedList<Diff> diffs = getDifferences(expectedString, actualString);
+        //CHECKSTYLE:ON
 
         return dmp.diff_levenshtein(diffs);
     }
 
+    /**
+     * Checks if the text in expected {@code Line} and actual {@code Line} are similar. <br/>
+     * This is done by cheching if the Levenshtein distance between the texts is within an acceptable range. <br/>
+     * Currently unused
+     */
     // TODO Think of a more "scientific" way to figure out if 2 lines are similar
-    @SuppressWarnings("unused")
-    private boolean isSimilar(Line expected, Line actual) {
+    public boolean isSimilar(Line expected, Line actual) {
         String expectedString = getLineAsString(expected);
         String actualString = getLineAsString(actual);
 
+        //CHECKSTYLE:OFF
         LinkedList<Diff> diffs = getDifferences(expectedString, actualString);
+        //CHECKSTYLE:ON
 
         int levenshteinDistance = dmp.diff_levenshtein(diffs);
         return levenshteinDistance < (Math.min(expectedString.length(), actualString.length()));
     }
 
+    //CHECKSTYLE:OFF
     private LinkedList<Diff> getDifferences(String expected, String actual) {
         return dmp.diff_main(expected, actual);
     }
+    //CHECKSTYLE:ON
 
+    /**
+     * Gets the {@code Region}s where differences were found
+     */
     @SuppressWarnings("unchecked")
     private Difference getRegionsFromDiffs(List<Diff> diffs, Line expected, Line actual) {
         Difference difference = new Difference();
-        int p1 = 0, p2 = 0;
+        int p1 = 0;
+        int p2 = 0;
         List<Region> expectedTextUnits = expected.getTextUnits();
         List<Region> actualTextUnits = actual.getTextUnits();
 
@@ -85,6 +105,8 @@ public class TextDiff {
                     difference.addDiffsInExpected(expectedTextUnits.subList(p1, p1 + diff.text.length()));
                     p1 += diff.text.length();
                     break;
+                default:
+                    throw new UnsupportedOperationException("Unknown diff operation");
             }
         }
 

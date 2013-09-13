@@ -5,11 +5,11 @@ import com.snowtide.pdf.layout.Region;
 
 public interface ReportGenerator {
 
-    public void createNewReport(String expectedPDF, String actualPDF);
+    void createNewReport(String expectedPDF, String actualPDF);
 
-    public void reportDifference(Region expected, Region actual, Difference difference);
+    void reportDifference(Region expected, Region actual, Difference difference);
 
-    public void setQuietMode(QuietMode quietMode);
+    void setQuietMode(QuietMode quietMode);
 
     public enum QuietMode {
         ON, OFF

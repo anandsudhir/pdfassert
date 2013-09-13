@@ -106,7 +106,7 @@
                             <shadedClassifierName>with-dependencies</shadedClassifierName>
                             <transformers>
                                 <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>com.pdfassert.PDFAssert</mainClass>
                                 </transformer>
                             </transformers>
@@ -134,8 +134,13 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
         </dependency>
-        <!--<dependency> <groupId>org.mockito</groupId> <artifactId>mockito-core</artifactId>
-            <version>1.8.0</version> <scope>test</scope> </dependency> <dependency> <groupId>org.slf4j</groupId>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.8.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!--<dependency> <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId> <version>${slf4j.version}</version> </dependency>
             <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version> </dependency> <dependency> <groupId>ch.qos.logback</groupId>

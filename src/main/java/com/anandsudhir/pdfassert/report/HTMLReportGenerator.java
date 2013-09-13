@@ -1,5 +1,19 @@
 package com.anandsudhir.pdfassert.report;
 
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import com.anandsudhir.pdfassert.domain.Difference;
 import com.snowtide.pdf.layout.Line;
 import com.snowtide.pdf.layout.Region;
@@ -9,24 +23,12 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 public class HTMLReportGenerator implements ReportGenerator {
 
+    public static final String NEWLINE = "\n";
+    public static final String TH = "th";
     private static Logger logger = Logger.getLogger(HTMLReportGenerator.class.getName());
-    private final HashMap attrs = new HashMap();
+    private final Map<String, String> attrs = new HashMap<String, String>();
     private QuietMode quietMode;
     private Document htmlDocument;
     private Element htmlElement;
@@ -72,20 +74,20 @@ public class HTMLReportGenerator implements ReportGenerator {
         Element head = htmlDocument.createElement("head");
         Element style = htmlDocument.createElement("style");
         style.setAttribute("type", "text/css");
-        style.setTextContent("\n" +
+        style.setTextContent(NEWLINE +
                 "        body {\n" +
                 "            margin: 0;\n" +
                 "            font-family: Arial,Helvetica,sans-serif;\n" +
                 "            font-size: 76%;\n" +
                 "        }\n" +
-                "\n" +
+                NEWLINE +
                 "        table {\n" +
                 "            border-top: 1px solid #9EADC0;\n" +
                 "            border-left: 1px solid #9EADC0;\n" +
                 "            border-collapse: collapse;\n" +
                 "            margin-left: 20px;\n" +
                 "        }\n" +
-                "\n" +
+                NEWLINE +
                 "        table caption {\n" +
                 "            color: #0E4993;\n" +
                 "            font-size: 16px;\n" +
@@ -94,11 +96,11 @@ public class HTMLReportGenerator implements ReportGenerator {
                 "            padding-bottom: 8px;\n" +
                 "            text-align: left;\n" +
                 "        }\n" +
-                "\n" +
+                NEWLINE +
                 "        thead tr {\n" +
                 "            background: none repeat scroll 0 0 #DEE3E9;\n" +
                 "        }\n" +
-                "\n" +
+                NEWLINE +
                 "        thead tr th {\n" +
                 "            text-align: left;\n" +
                 "            padding: 4px;\n" +
@@ -107,15 +109,15 @@ public class HTMLReportGenerator implements ReportGenerator {
                 "            border-bottom: 1px solid #9EADC0;\n" +
                 "            border-right: 1px solid #9EADC0;\n" +
                 "        }\n" +
-                "\n" +
+                NEWLINE +
                 "        tbody tr:nth-child(odd) {\n" +
                 "            background-color: #EEEEEF;\n" +
                 "        }\n" +
-                "\n" +
+                NEWLINE +
                 "        tbody tr:nth-child(even) {\n" +
                 "            background-color: #FFFFFF;\n" +
                 "        }\n" +
-                "\n" +
+                NEWLINE +
                 "        tbody tr td {\n" +
                 "            border-bottom: 1px solid #9EADC0;\n" +
                 "            border-right: 1px solid #9EADC0;\n" +
@@ -138,16 +140,16 @@ public class HTMLReportGenerator implements ReportGenerator {
         table.appendChild(thead);
         Element tr = htmlDocument.createElement("tr");
         thead.appendChild(tr);
-        Element th1 = htmlDocument.createElement("th");
+        Element th1 = htmlDocument.createElement(TH);
         th1.appendChild(htmlDocument.createTextNode("Content in " + expectedPDF));
         tr.appendChild(th1);
-        Element th2 = htmlDocument.createElement("th");
+        Element th2 = htmlDocument.createElement(TH);
         th2.appendChild(htmlDocument.createTextNode("Content in " + actualPDF));
         tr.appendChild(th2);
-        Element th3 = htmlDocument.createElement("th");
+        Element th3 = htmlDocument.createElement(TH);
         th3.appendChild(htmlDocument.createTextNode("Difference in " + expectedPDF));
         tr.appendChild(th3);
-        Element th4 = htmlDocument.createElement("th");
+        Element th4 = htmlDocument.createElement(TH);
         th4.appendChild(htmlDocument.createTextNode("Difference in " + actualPDF));
         tr.appendChild(th4);
 
@@ -196,11 +198,13 @@ public class HTMLReportGenerator implements ReportGenerator {
 
     private Element buildTextElt(Document doc, String elttype, String contents, Map attributes) {
         Element te = doc.createElement(elttype);
-        if (contents != null && contents.length() > 0) te.appendChild(doc.createTextNode(contents));
+        if (contents != null && contents.length() > 0) {
+            te.appendChild(doc.createTextNode(contents));
+        }
 
         if (attributes != null) {
             Map.Entry attr;
-            for (Iterator iter = attributes.entrySet().iterator(); iter.hasNext(); ) {
+            for (Iterator iter = attributes.entrySet().iterator(); iter.hasNext();) {
                 attr = (Map.Entry) iter.next();
                 te.setAttribute(String.valueOf(attr.getKey()), String.valueOf(attr.getValue()));
             }

@@ -5,9 +5,9 @@ import com.anandsudhir.pdfassert.domain.PDFDocument;
 
 public interface DiffResultHandler {
 
-    public int getDifferenceCount();
+    int getDifferenceCount();
 
-    public void handleDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc,
+    void handleDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc,
                                   PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception;
 }
 

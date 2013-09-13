@@ -1,26 +1,23 @@
 package com.anandsudhir.pdfassert;
 
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.anandsudhir.pdfassert.domain.PDFDocument;
 import com.anandsudhir.pdfassert.report.HTMLReportGenerator;
 import com.anandsudhir.pdfassert.result.DiffResultHandler;
 import com.anandsudhir.pdfassert.result.JUnitDiffResultHandler;
 import com.anandsudhir.pdfassert.result.SwingHighlightingDiffResultHandler;
 import org.apache.log4j.Logger;
-import pdfts.examples.XMLFormExport;
-
-import java.awt.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class PDFAssert {
 
-    static Logger logger = Logger.getLogger(PDFAssert.class.getName());
+    private static final Logger logger = Logger.getLogger(PDFAssert.class.getName());
     private DiffResultHandler diffResultHandler;
     @SuppressWarnings("unused")
     private String diffDirectory;

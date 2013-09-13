@@ -1,24 +1,29 @@
 package com.anandsudhir.pdfassert.result;
 
-import com.anandsudhir.pdfassert.domain.PDFDocument;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.io.File;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+
 import com.anandsudhir.pdfassert.PDFAssert;
+import com.anandsudhir.pdfassert.domain.PDFDocument;
 import org.apache.log4j.Logger;
 import org.icepdf.ri.common.ComponentKeyBinding;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.io.File;
-
 public class SwingHighlightingDiffResultHandler extends HighlightingDiffResultHandler {
 
-    static Logger logger = Logger.getLogger(PDFAssert.class.getName());
+    private static final Logger logger = Logger.getLogger(PDFAssert.class.getName());
 
     @Override
-    public void handleDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc, PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
+    public void handleDifferences(PDFDocument expectedPdfDoc, PDFDocument actualPdfDoc,
+                                  PDFAssert.ComparisonResultMode comparisonResultMode) throws Exception {
         if (!actualPdfDoc.isDifferent()) {
             logger.info("No differences found between pdfs");
             return;

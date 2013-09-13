@@ -1,0 +1,22 @@
+# Default behaviour, in case users don't have core.autocrlf set
+*		text=auto
+
+# Explicitly declare text files we want to always be normalized and
+# converted to native line endings on checkout
+*.java		text
+*.properties	text
+*.xml		text
+*.css		text
+*.js		text
+*.html		text
+
+
+# shell scripts must always use lf
+*.sh	text	eol=lf
+
+
+# binary files, should never be modified
+*.png		binary
+*.jpg		binary
+*.pdf		binary
+*.jar		binary

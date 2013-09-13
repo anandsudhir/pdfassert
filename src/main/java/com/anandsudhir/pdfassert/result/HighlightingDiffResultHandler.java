@@ -1,5 +1,9 @@
 package com.anandsudhir.pdfassert.result;
 
+import java.awt.Color;
+import java.util.List;
+import java.util.Map;
+
 import com.anandsudhir.pdfassert.PDFAssert;
 import com.anandsudhir.pdfassert.domain.Difference;
 import com.anandsudhir.pdfassert.domain.PDFDocument;
@@ -7,10 +11,6 @@ import com.snowtide.pdf.layout.Region;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-
-import java.awt.*;
-import java.util.List;
-import java.util.Map;
 
 public class HighlightingDiffResultHandler implements DiffResultHandler {
 

@@ -1,9 +1,9 @@
 package com.anandsudhir.pdfassert.domain;
 
-import com.snowtide.pdf.layout.Region;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.snowtide.pdf.layout.Region;
 
 public class Difference {
     private List<Region> diffsInExpected = new ArrayList<Region>();

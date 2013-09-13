@@ -5,7 +5,7 @@ import com.snowtide.pdf.layout.Line;
 import com.snowtide.pdf.layout.Region;
 import com.snowtide.pdf.layout.TextUnit;
 
-public class ConsoleReportGenerator implements ReportGenerator{
+public class ConsoleReportGenerator implements ReportGenerator {
 
     private QuietMode quietMode;
 
@@ -25,7 +25,7 @@ public class ConsoleReportGenerator implements ReportGenerator{
             return;
         }
 
-        if(expected instanceof Line && actual instanceof Line) {
+        if (expected instanceof Line && actual instanceof Line) {
             reportLineDifference(expected, actual, difference);
         }
     }

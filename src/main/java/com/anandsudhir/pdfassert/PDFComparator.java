@@ -1,5 +1,11 @@
 package com.anandsudhir.pdfassert;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.anandsudhir.pdfassert.diff.TextDiff;
 import com.anandsudhir.pdfassert.domain.Difference;
 import com.anandsudhir.pdfassert.domain.PDFDocument;
@@ -12,12 +18,6 @@ import com.snowtide.pdf.layout.Block;
 import com.snowtide.pdf.layout.Line;
 import com.snowtide.pdf.layout.Region;
 import org.apache.log4j.Logger;
-
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PDFComparator {
 
@@ -190,8 +190,8 @@ public class PDFComparator {
         Rectangle2D rect1 = new Rectangle2D.Double(region1.xpos(), region1.ypos(), region1.width(), region1.height());
         Rectangle2D rect2 = new Rectangle2D.Double(region2.xpos(), region2.ypos(), region2.width(), region2.height());
 
-        double part1 = Math.pow((rect1.getCenterX() - rect2.getCenterX()), 2);
-        double part2 = Math.pow((rect1.getCenterY() - rect2.getCenterY()), 2);
+        double part1 = Math.pow(rect1.getCenterX() - rect2.getCenterX(), 2);
+        double part2 = Math.pow(rect1.getCenterY() - rect2.getCenterY(), 2);
         double underRadical = part1 + part2;
 
         return (float) Math.sqrt(underRadical);
@@ -199,8 +199,14 @@ public class PDFComparator {
 
     @SuppressWarnings("unused")
     private float getOverlapArea(Region region1, Region region2) {
-        float x11 = region1.xpos(), y11 = region1.ypos(), x12 = region1.endxpos(), y12 = region1.endypos();
-        float x21 = region2.xpos(), y21 = region2.ypos(), x22 = region2.endxpos(), y22 = region2.endypos();
+        float x11 = region1.xpos();
+        float y11 = region1.ypos();
+        float x12 = region1.endxpos();
+        float y12 = region1.endypos();
+        float x21 = region2.xpos();
+        float y21 = region2.ypos();
+        float x22 = region2.endxpos();
+        float y22 = region2.endypos();
 
         /*float x_overlap = x12 < x21 || x11 > x22 ? 0 : Math.min(x12, x22) - Math.max(x11, x21);
         float y_overlap = y12 < y21 || y11 > y22 ? 0 : Math.min(y12, y22) - Math.max(y11, y21);*/
@@ -208,11 +214,12 @@ public class PDFComparator {
         float xOverlap = Math.max(0, Math.min(x12, x22) - Math.max(x11, x21));
         float yOverlap = Math.max(0, Math.min(y12, y22) - Math.max(y11, y21));
 
-        return (xOverlap * yOverlap);
+        return xOverlap * yOverlap;
     }
 
     private float getOverlapArea2(Region region1, Region region2) {
-        double coverageRect1, coverageRect2;
+        double coverageRect1;
+        double coverageRect2;
 
         Rectangle2D rect1 = new Rectangle2D.Double(region1.xpos(), region1.ypos(), region1.width(), region1.height());
         Rectangle2D rect2 = new Rectangle2D.Double(region2.xpos(), region2.ypos(), region2.width(), region2.height());
@@ -232,7 +239,7 @@ public class PDFComparator {
     }
 
     private static class LocalOutputHandler extends OutputHandler {
-        private int currentPage = 0;
+        private int currentPage;
         private Map<Integer, List<Block>> pages = new HashMap<Integer, List<Block>>();
         private List<Block> blocks = new ArrayList<Block>();
 
